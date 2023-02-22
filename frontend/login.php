@@ -1,6 +1,6 @@
 <?php
 session_start();
-$db = mysqli_connect('localhost', 'id13088822_root', 'Reema@123456', 'id13088822_phishing')or die("Not connecting");
+$db = mysqli_connect('localhost', 'kokurou', 'sequeladmin', 'phishing')or die("Not connecting");
 $username =$_POST['uname'];
 $password =$_POST['psw'];
 $sql = "SELECT * FROM `admin` WHERE `alloted_id`='$username' AND password='$password' " ;

@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect('localhost', 'id13088822_root', 'Reema@123456', 'id13088822_phishing')or die("Not connecting");
+$db = mysqli_connect('localhost', 'kokurou', 'sequeladmin', 'phishing')or die("Not connecting");
 $username =$_POST['uname'];
 $email =$_POST['email'];
 $comments =$_POST['comments'];

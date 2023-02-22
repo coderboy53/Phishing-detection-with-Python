@@ -43,7 +43,7 @@
 <br><br><br>
 <div>
 <?php 
-$db = mysqli_connect('localhost', 'id13088822_root', 'Reema@123456', 'id13088822_phishing')or die("Not connecting");
+$db = mysqli_connect('localhost', 'kokurou', 'sequeladmin', 'phishing')or die("Not connecting");
 $q="SELECT * FROM websites";
 $r=mysqli_query($db,$q);
 if(mysqli_num_rows($r) > 0){
