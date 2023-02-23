@@ -131,8 +131,7 @@ def mailto(ip):
                 l=link.get('href')
                 if('mailto:' in l):
                     return -1
-                else:
-                    return 1
+            return 1
         except:
             return 1
     except:

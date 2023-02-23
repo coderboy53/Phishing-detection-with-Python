@@ -1,5 +1,6 @@
 import sys
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS, cross_origin
 import traceback
 import pandas as pd
 import joblib 
@@ -7,16 +8,19 @@ import rule_engine
 import requests
 import urllib.request as urllib2
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 @app.route('/phishing', methods=['POST','GET'])
+@cross_origin(supports_credentials=True)
 def phishing():
     try:
         if request.method == 'POST':
             data=request.get_json(force=True)
             ip=data['url']
-            
+            print(ip)
             #exists check
             try:
-                urllib2.urlopen(ip)
+                req = urllib2.Request(ip, headers={'User-Agent': 'Mozilla/5.0'})
+                urllib2.urlopen(req)
             except:
                 return jsonify({'prediction':'Provided Website URL does not exist'})
             
@@ -40,7 +44,7 @@ def phishing():
             print(row)
             features=pd.DataFrame([row])
 
-            model = joblib.load('gbc.pkl')
+            model = joblib.load('/srv/http/cyberproj/api-files/gbc.pkl')
             output=model.predict(features)
             if(output[0]==1):
                 pred='Legitimate'

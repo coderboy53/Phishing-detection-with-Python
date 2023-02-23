@@ -17,7 +17,7 @@
 function apicall(){ 
 
   xmlObj = new XMLHttpRequest(); //suddenly global scope
-  xmlObj.open("POST","https://phishingurl.pythonanywhere.com/phishing",false);
+  xmlObj.open("POST","http://127.0.0.1:5000/phishing",false);
   xmlObj.setRequestHeader("Content-Type", "application/json");
   var website=document.getElementById("url").value;
   var data = JSON.stringify({"url": website});
@@ -29,7 +29,7 @@ function apicall(){
 	  
 	  if(xmlObj.status==200){
 	var json = JSON.parse(xmlObj.responseText);
-	document.getElementById("response").innerHTML =json.prediction;
+	document.getElementById("response").innerHTML = json.prediction;
   }}
   else
   {
@@ -54,7 +54,7 @@ function apicall(){
 </div>
 <center><h3 id="message"></h3></center>
 <div id="check">
- 
+<!-- action="{{url_for('phishing')}}" -->
   <form method="post" onsubmit="return false;">
 	<h3 align="center">Check URL</h3>
     <div class="container">
@@ -62,7 +62,7 @@ function apicall(){
 	  <br>
       <input type="text" placeholder="Enter URL" name="url" id="url" required>
 	  <br><br><br>
-      
+    <!-- onclick="apicall()" -->
 	  <button type="submit" name = "submit" id = "submit" onclick="apicall()">Check Website for Phishing</button>
 	  <br><br><br>
       <center><h3><label id="response"></label></h3></center>
