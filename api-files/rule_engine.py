@@ -49,13 +49,18 @@ def contains_at(ip):
     
 #5
 def last_slash(ip):
-    if(ip.rfind('/') > 6):
+    if(ip.rfind('//') > 6):
        return -1
     else:
         return 1
 #6
 def contains_dash(ip):
-    if('-' in ip):
+    if('https' in ip):
+        start = 7
+    elif('http' in ip):
+        start = 6
+    pos = ip.find('/',start)
+    if(ip.find('-') < pos):
         return -1
     else:
         return 1
@@ -84,6 +89,9 @@ def domain_period(ip):
         domain_info=whois.whois(domain)
         expiry=domain_info.expiration_date
         creation=domain_info.creation_date
+        l = []
+        if type(expiry)==type(l):
+            expiry = expiry[0]
         if((expiry-creation).days <= 366):
             return -1
         else:
@@ -194,10 +202,12 @@ def domain_age(ip):
 def dns_record(ip):
     print('incomplete')
 '''
+
 #26
-def alexa_rank(ip):
+def simweb(ip):
     try:
-        rank=bs4.BeautifulSoup(urllib2.urlopen("http://data.alexa.com/data?cli=10&dat=s&url="+ ip).read(),features='xml').find("REACH")['RANK']
+        domain=whois.whois(urlparse(ip).netloc)
+        rank=bs4.BeautifulSoup(urllib2.urlopen("https://www.similarweb.com/website/"+domain).read(),features='xml').find("REACH")['RANK']
         if(int(rank) < 100000):
             return 1
         elif(int(rank) > 100000):
@@ -205,6 +215,29 @@ def alexa_rank(ip):
     except Exception as e:
         print(e)
         return -1
+
+def safe_anchor(Anchor):
+    total = len(Anchor['safe']) +  len(Anchor['unsafe'])
+    unsafe = len(Anchor['unsafe'])
+    try:
+        percentile = unsafe / float(total) * 100
+    except:
+        return 0
+    return percentile 
+
+def sfh(hostname, Form):
+    if len(Form['null'])>0:
+        return 1
+    return 0
+
+def links_in_tags(Link):
+    total = len(Link['internals']) +  len(Link['externals'])
+    internals = len(Link['internals'])
+    try:
+        percentile = internals / float(total) * 100
+    except:
+        return 0
+    return percentile
 
 if __name__=='__main__':
     print(domain_period('https://stackoverflow.com'))
